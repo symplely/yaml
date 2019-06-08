@@ -1,15 +1,8 @@
 <?php
 
-#
-#    S P Y C
-#      a simple php yaml class
-#
-# Feel free to dump an array to YAML, and then to load that YAML back into an
-# array.  This is a good way to test the limitations of the parser and maybe
-# learn some basic YAML.
-#
+require 'vendor/autoload.php';
 
-include('../Spyc.php');
+use Async\Yaml;
 
 $array[] = 'Sequence item';
 $array['The Key'] = 'Mapped value';
@@ -22,4 +15,4 @@ $array['The trick?'] = 'The trick is that we overrode the default indent, 2, to 
 $array['Old Dog'] = "And if you want\n to preserve line breaks, \ngo ahead!";
 $array['key:withcolon'] = "Should support this to";
 
-$yaml = Spyc::YAMLDump($array,4,60);
+$yaml = Yaml::dumper($array,4,60);

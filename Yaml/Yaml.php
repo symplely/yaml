@@ -10,7 +10,7 @@
    * @package Spyc
    */
 
-namespace Async\Yaml;
+namespace Async;
 
 /**
    * The Simple PHP YAML Class.
@@ -21,7 +21,7 @@ namespace Async\Yaml;
    *
    * Usage:
    * <code>
-   *   $Spyc  = new Spyc;
+   *   $Spyc  = new Yaml;
    *   $array = $Spyc->load($file);
    * </code>
    * or:
@@ -119,7 +119,7 @@ class Yaml
      */
   public static function loader($input) 
   {
-    $Spyc = new Spyc;
+    $Spyc = new Yaml;
     return $Spyc->_load($input);
   }
 
@@ -144,7 +144,7 @@ class Yaml
      */
   public static function loadString($input) 
   {
-    $Spyc = new Spyc;
+    $Spyc = new Yaml;
     return $Spyc->_loadString($input);
   }
 
@@ -171,7 +171,7 @@ class Yaml
      */
   public static function dumper($array, $indent = false, $wordwrap = false, $no_opening_dashes = false) 
   {
-    $spyc = new Spyc;
+    $spyc = new Yaml;
     return $spyc->dump($array, $indent, $wordwrap, $no_opening_dashes);
   }
 

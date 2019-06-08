@@ -21,8 +21,8 @@ namespace Async;
    *
    * Usage:
    * <code>
-   *   $Spyc  = new Yaml;
-   *   $array = $Spyc->load($file);
+   *   $Yaml  = new Yaml;
+   *   $array = $Yaml->load($file);
    * </code>
    * or:
    * <code>
@@ -119,8 +119,8 @@ class Yaml
      */
   public static function loader($input) 
   {
-    $Spyc = new Yaml;
-    return $Spyc->_load($input);
+    $Yaml = new Yaml;
+    return $Yaml->_load($input);
   }
 
   /**
@@ -144,8 +144,8 @@ class Yaml
      */
   public static function loadString($input) 
   {
-    $Spyc = new Yaml;
-    return $Spyc->_loadString($input);
+    $Yaml = new Yaml;
+    return $Yaml->_loadString($input);
   }
 
   /**
@@ -171,8 +171,8 @@ class Yaml
      */
   public static function dumper($array, $indent = false, $wordwrap = false, $no_opening_dashes = false) 
   {
-    $spyc = new Yaml;
-    return $spyc->dump($array, $indent, $wordwrap, $no_opening_dashes);
+    $yaml = new Yaml;
+    return $yaml->dump($array, $indent, $wordwrap, $no_opening_dashes);
   }
 
 

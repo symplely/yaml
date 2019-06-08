@@ -10,7 +10,7 @@ class IndentTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->Y = Yaml::loader(__DIR__."/indent_1.yaml");
+        $this->Y = Yaml::loader(__DIR__.DIRECTORY_SEPARATOR."indent_1.yaml");
     }
 
     public function testIndent_1() 

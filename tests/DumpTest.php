@@ -14,6 +14,14 @@ class DumpTest extends TestCase
       $this->files_to_test = array('spyc.yaml', 'failing1.yaml', 'indent_1.yaml', 'quotes.yaml');
     }
 
+    public function testParseAndDumper()
+    {
+        $data = ['lorem' => 'ipsum', 'dolor' => 'sit'];
+        $yml = Yaml::dumper($data);
+        $parsed = Yaml::parse($yml);
+        $this->assertEquals($data, $parsed);
+    }
+
     public function testShortSyntax() 
     {
       $dump = yaml_dump(array('item1', 'item2', 'item3'));
@@ -24,14 +32,14 @@ class DumpTest extends TestCase
     public function testDumpArrays() 
     {
       $dump = Yaml::dumper(array('item1', 'item2', 'item3'));
-      $awaiting = "---\n- item1\n- item2\n- item3\n";
+      $awaiting = "- item1\n- item2\n- item3\n";
       $this->assertEquals($awaiting, $dump);
     }
 
     public function testNull() 
     {
         $dump = Yaml::dumper(array('a' => 1, 'b' => null, 'c' => 3));
-        $awaiting = "---\na: 1\nb: null\nc: 3\n";
+        $awaiting = "a: 1\nb: null\nc: 3\n";
         $this->assertEquals($awaiting, $dump);
     }
 
@@ -41,7 +49,7 @@ class DumpTest extends TestCase
         #set arrays internal pointer to next element
         next($array);
         $dump = Yaml::dumper($array);
-        $awaiting = "---\n- aaa\n- bbb\n- ccc\n";
+        $awaiting = "- aaa\n- bbb\n- ccc\n";
         $this->assertEquals($awaiting, $dump);
     }
 
@@ -65,140 +73,140 @@ class DumpTest extends TestCase
     public function testMixed() 
     {
         $dump = Yaml::dumper(array(0 => 1, 'b' => 2, 1 => 3));
-        $awaiting = "---\n0: 1\nb: 2\n1: 3\n";
+        $awaiting = "0: 1\nb: 2\n1: 3\n";
         $this->assertEquals($awaiting, $dump);
     }
 
     public function testDumpNumerics() 
     {
       $dump = Yaml::dumper(array('404', '405', '500'));
-      $awaiting = "---\n- \"404\"\n- \"405\"\n- \"500\"\n";
+      $awaiting = "- \"404\"\n- \"405\"\n- \"500\"\n";
       $this->assertEquals($awaiting, $dump);
     }
 
     public function testDumpAsterisks() 
     {
       $dump = Yaml::dumper(array('*'));
-      $awaiting = "---\n- '*'\n";
+      $awaiting = "- '*'\n";
       $this->assertEquals($awaiting, $dump);
     }
 
     public function testDumpAmpersands() 
     {
       $dump = Yaml::dumper(array('some' => '&foo'));
-      $awaiting = "---\nsome: '&foo'\n";
+      $awaiting = "some: '&foo'\n";
       $this->assertEquals($awaiting, $dump);
     }
 
     public function testDumpExclamations() 
     {
       $dump = Yaml::dumper(array('some' => '!foo'));
-      $awaiting = "---\nsome: '!foo'\n";
+      $awaiting = "some: '!foo'\n";
       $this->assertEquals($awaiting, $dump);
     }
 
     public function testDumpExclamations2() 
     {
       $dump = Yaml::dumper(array('some' => 'foo!'));
-      $awaiting = "---\nsome: foo!\n";
+      $awaiting = "some: foo!\n";
       $this->assertEquals($awaiting, $dump);
     }
 
     public function testDumpApostrophes() 
     {
       $dump = Yaml::dumper(array('some' => "'Biz' pimpt bedrijventerreinen"));
-      $awaiting = "---\nsome: \"'Biz' pimpt bedrijventerreinen\"\n";
+      $awaiting = "some: \"'Biz' pimpt bedrijventerreinen\"\n";
       $this->assertEquals($awaiting, $dump);
     }
 
     public function testDumpNumericHashes() 
     {
       $dump = Yaml::dumper(array("titel"=> array("0" => "", 1 => "Dr.", 5 => "Prof.", 6 => "Prof. Dr.")));
-      $awaiting = "---\ntitel:\n  0: \"\"\n  1: Dr.\n  5: Prof.\n  6: Prof. Dr.\n";
+      $awaiting = "titel:\n  0: \"\"\n  1: Dr.\n  5: Prof.\n  6: Prof. Dr.\n";
       $this->assertEquals($awaiting, $dump);
     }
 
     public function testEmpty() 
     {
-      $dump = Yaml::dumper(array("foo" => array()));
-      $awaiting = "---\nfoo: [ ]\n";
+      $dump = Yaml::dumper(array("foo" => array()),false, false, true);
+      $awaiting = "foo: [ ]\n";
       $this->assertEquals($awaiting, $dump);
     }
 
     public function testHashesInKeys() 
     {
       $dump = Yaml::dumper(array('#color' => '#ffffff'));
-      $awaiting = "---\n\"#color\": '#ffffff'\n";
+      $awaiting = "\"#color\": '#ffffff'\n";
       $this->assertEquals($awaiting, $dump);
     }
 
     public function testParagraph() 
     {
       $dump = Yaml::dumper(array('key' => "|\n  value"));
-      $awaiting = "---\nkey: |\n  value\n";
+      $awaiting = "key: |\n  value\n";
       $this->assertEquals($awaiting, $dump);
     }
 
     public function testParagraphTwo() 
     {
       $dump = Yaml::dumper(array('key' => 'Congrats, pimpt bedrijventerreinen pimpt bedrijventerreinen pimpt bedrijventerreinen!'));
-      $awaiting = "---\nkey: >\n  Congrats, pimpt bedrijventerreinen pimpt\n  bedrijventerreinen pimpt\n  bedrijventerreinen!\n";
+      $awaiting = "key: >\n  Congrats, pimpt bedrijventerreinen pimpt\n  bedrijventerreinen pimpt\n  bedrijventerreinen!\n";
       $this->assertEquals($awaiting, $dump);
     }
 
     public function testString() 
     {
       $dump = Yaml::dumper(array('key' => array('key_one' => 'Congrats, pimpt bedrijventerreinen!')));
-      $awaiting = "---\nkey:\n  key_one: Congrats, pimpt bedrijventerreinen!\n";
+      $awaiting = "key:\n  key_one: Congrats, pimpt bedrijventerreinen!\n";
       $this->assertEquals($awaiting, $dump);
     }
 
     public function testStringLong() 
     {
       $dump = Yaml::dumper(array('key' => array('key_one' => 'Congrats, pimpt bedrijventerreinen pimpt bedrijventerreinen pimpt bedrijventerreinen!')));
-      $awaiting = "---\nkey:\n  key_one: >\n    Congrats, pimpt bedrijventerreinen pimpt\n    bedrijventerreinen pimpt\n    bedrijventerreinen!\n";
+      $awaiting = "key:\n  key_one: >\n    Congrats, pimpt bedrijventerreinen pimpt\n    bedrijventerreinen pimpt\n    bedrijventerreinen!\n";
       $this->assertEquals($awaiting, $dump);
     }
 
     public function testStringDoubleQuote() 
     {
       $dump = Yaml::dumper(array('key' => array('key_one' =>  array('key_two' => '"Système d\'e-réservation"'))));
-      $awaiting = "---\nkey:\n  key_one:\n    key_two: |\n      Système d'e-réservation\n";
+      $awaiting = "key:\n  key_one:\n    key_two: |\n      Système d'e-réservation\n";
       $this->assertEquals($awaiting, $dump);
     }
 
     public function testLongStringDoubleQuote() 
     {
       $dump = Yaml::dumper(array('key' => array('key_one' =>  array('key_two' => '"Système d\'e-réservation bedrijventerreinen pimpt" bedrijventerreinen!'))));
-      $awaiting = "---\nkey:\n  key_one:\n    key_two: |\n      \"Système d'e-réservation bedrijventerreinen pimpt\" bedrijventerreinen!\n";
+      $awaiting = "key:\n  key_one:\n    key_two: |\n      \"Système d'e-réservation bedrijventerreinen pimpt\" bedrijventerreinen!\n";
       $this->assertEquals($awaiting, $dump);
     }
 
     public function testStringStartingWithSpace() 
     {
       $dump = Yaml::dumper(array('key' => array('key_one' => "    Congrats, pimpt bedrijventerreinen \n    pimpt bedrijventerreinen pimpt bedrijventerreinen!")));
-      $awaiting = "---\nkey:\n  key_one: |\n    Congrats, pimpt bedrijventerreinen\n    pimpt bedrijventerreinen pimpt bedrijventerreinen!\n";
+      $awaiting = "key:\n  key_one: |\n    Congrats, pimpt bedrijventerreinen\n    pimpt bedrijventerreinen pimpt bedrijventerreinen!\n";
       $this->assertEquals($awaiting, $dump);
     }
 
     public function testPerCentOne() 
     {
       $dump = Yaml::dumper(array('key' => "%name%, pimpts bedrijventerreinen!"));
-      $awaiting = "---\nkey: '%name%, pimpts bedrijventerreinen!'\n";
+      $awaiting = "key: '%name%, pimpts bedrijventerreinen!'\n";
       $this->assertEquals($awaiting, $dump);
     }
 
     public function testPerCentAndSimpleQuote() 
     {
       $dump = Yaml::dumper(array('key' => "%name%, pimpt's bedrijventerreinen!"));
-      $awaiting = "---\nkey: \"%name%, pimpt's bedrijventerreinen!\"\n";
+      $awaiting = "key: \"%name%, pimpt's bedrijventerreinen!\"\n";
       $this->assertEquals($awaiting, $dump);
     }
 
     public function testPerCentAndDoubleQuote() 
     {
       $dump = Yaml::dumper(array('key' => '%name%, pimpt\'s "bed"rijventerreinen!'));
-      $awaiting = "---\nkey: |\n  %name%, pimpt's \"bed\"rijventerreinen!\n";
+      $awaiting = "key: |\n  %name%, pimpt's \"bed\"rijventerreinen!\n";
       $this->assertEquals($awaiting, $dump);
     }
 }

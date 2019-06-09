@@ -8,7 +8,20 @@ class FailingDumpTest extends TestCase
 {
 
     private $files_to_test = array();
-
+    protected $array = [
+      '' => 'bar',
+      'foo' => '#bar',
+      'foo\'bar' => [],
+      'bar' => [1, 'foo'],
+      'foobar' => [
+          'foo' => 'bar',
+          'bar' => [1, 'foo'],
+          'foobar' => [
+              'foo' => 'bar',
+              'bar' => [1, 'foo'],
+          ],
+      ],
+  ];
     public function setUp(): void 
     {
       $this->markTestSkipped(
@@ -16,6 +29,31 @@ class FailingDumpTest extends TestCase
       );
       
       $this->files_to_test = array('spyc.yaml', 'failing1.yaml', 'indent_1.yaml', 'quotes.yaml');
+    }
+
+    public function testIndentationInConstructor()
+    {
+        $dumper = new Yaml();
+        $expected = <<<'EOF'
+'': bar
+foo: '#bar'
+'foo''bar': {  }
+bar:
+       - 1
+       - foo
+foobar:
+       foo: bar
+       bar:
+              - 1
+              - foo
+       foobar:
+              foo: bar
+              bar:
+                     - 1
+                     - foo
+
+EOF;
+        $this->assertEquals($expected, $dumper->dump($this->array, 7));
     }
 
     public function testDump() 
@@ -30,9 +68,9 @@ class FailingDumpTest extends TestCase
 
     public function testDumpWithQuotes() 
     {
-      $Spyc = new Spyc();
+      $Spyc = new Yaml();
       $Spyc->setting_dump_force_quotes = true;
-      foreach($this->files_to_test as $file) {
+      foreach ($this->files_to_test as $file) {
         $yaml = $Spyc->load(file_get_contents(__DIR__.DIRECTORY_SEPARATOR.$file));
         $dump = $Spyc->dump($yaml);
         $yaml_after_dump = Yaml::loader($dump);

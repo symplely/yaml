@@ -15,12 +15,7 @@
         
     <filter>
         <whitelist>
-            <directory suffix=".php">yaml/</directory>
-            <exclude>
-                <directory>./build</directory>
-                <directory>./tests</directory>
-                <directory>./vendor</directory>
-            </exclude>
+            <directory suffix=".php">Yaml/</directory>
         </whitelist>		
     </filter>
 

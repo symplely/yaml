@@ -1116,7 +1116,7 @@ class Yaml
         return $literalBlock . $line;
     }
 
-    public function revertLiteralPlaceHolder($lineArray, $literalBlock)
+    private function revertLiteralPlaceHolder($lineArray, $literalBlock)
     {
         foreach ($lineArray as $k => $_) {
             if (\is_array($_)) {

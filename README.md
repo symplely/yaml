@@ -1,7 +1,8 @@
-[![Build Status](https://travis-ci.org/symplely/yaml.svg?branch=master)](https://travis-ci.org/symplely/yaml)[![Codacy Badge](https://api.codacy.com/project/badge/Grade/cf23167ee99d4fe8a56f5886226de70d)](https://app.codacy.com/app/symplely/yaml?utm_source=github.com&utm_medium=referral&utm_content=symplely/yaml&utm_campaign=Badge_Grade_Dashboard)
-[![codecov](https://codecov.io/gh/symplely/yaml/branch/master/graph/badge.svg)](https://codecov.io/gh/symplely/yaml)[![Maintainability](https://api.codeclimate.com/v1/badges/414f3b593f321f4f255f/maintainability)](https://codeclimate.com/github/symplely/yaml/maintainability)
+# Yaml
 
-This is a YAML loader/dumper written in pure PHP.
+[![Build Status](https://travis-ci.org/symplely/yaml.svg?branch=master)](https://travis-ci.org/symplely/yaml)[![codecov](https://codecov.io/gh/symplely/yaml/branch/master/graph/badge.svg)](https://codecov.io/gh/symplely/yaml)[![Codacy Badge](https://api.codacy.com/project/badge/Grade/8713c8ff9c8b40d3ba93cc913a66118c)](https://www.codacy.com/app/techno-express/yaml?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=symplely/yaml&amp;utm_campaign=Badge_Grade)
+
+An pure PHP implementation base YAML loader/dumper.
 
 - Given a YAML document, will return an array that you can use however you see fit.
 
@@ -14,13 +15,16 @@ Supporting YAML 1.1 specification.
 
 ## Installation
 
-    composer require symplely/yaml
+```cmd
+composer require symplely/yaml
+```
 
 ## Usage
 
 Using Yaml is trivial:
 
 The `parse()` or `loader()` method parses a YAML string and converts it to a PHP array:
+
 ```php
 require 'vendor/autoload.php';
 

@@ -20,10 +20,19 @@ Supporting YAML 1.1 specification.
 
 Using Yaml is trivial:
 
+The `parse()` or `loader()` method parses a YAML string and converts it to a PHP array:
 ```php
 require 'vendor/autoload.php';
 
+use Async\Yaml;
+
+ // Reading YAML Contents
 $Data = Yaml::loader('config.yaml');
+// Or
+$Data = Yaml::parse("foo: bar");
+// Or
+$Data = yaml_load("foo: bar");
+// $Data = ['foo' => 'bar']
 ```
 
 or (if you prefer functional syntax)
@@ -32,4 +41,24 @@ or (if you prefer functional syntax)
 require 'vendor/autoload.php';
 
 $Data = yaml_load_file('config.yaml');
+```
+
+The `dumper()` method dumps any PHP array to its YAML representation:
+
+```php
+require 'vendor/autoload.php';
+
+use Async\Yaml;
+
+$array = [
+    'foo' => 'bar',
+    'bar' => ['foo' => 'bar','bar' => 'baz'],
+];
+
+$yaml = Yaml::dumper($array);
+// Or
+$yaml = yaml_dump($array);
+
+// Writing YAML Files
+file_put_contents('/path/to/file.yaml', $yaml);
 ```

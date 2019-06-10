@@ -11,7 +11,29 @@ class DumpTest extends TestCase
 
     public function setUp(): void 
     {
-      $this->files_to_test = array('spyc.yaml', 'failing1.yaml', 'indent_1.yaml', 'quotes.yaml');
+      $this->files_to_test = array('failing1.yaml', 'quotes.yaml');
+    }
+
+    public function testDump() 
+    {
+      foreach($this->files_to_test as $file) {
+        $yaml = yaml_load(file_get_contents(__DIR__.DIRECTORY_SEPARATOR.$file));
+        $dump = Yaml::dumper($yaml);
+        $yaml_after_dump = Yaml::loader($dump);
+        $this->assertEquals($yaml, $yaml_after_dump);
+      }
+    }
+
+    public function testDumpWithQuotes() 
+    {
+      $Spyc = new Yaml();
+      $Spyc->setting_dump_force_quotes = true;
+      foreach ($this->files_to_test as $file) {
+        $yaml = $Spyc->load(file_get_contents(__DIR__.DIRECTORY_SEPARATOR.$file));
+        $dump = $Spyc->dump($yaml);
+        $yaml_after_dump = Yaml::loader($dump);
+        $this->assertEquals($yaml, $yaml_after_dump);
+      }
     }
 
     public function testParseAndDumper()
@@ -67,7 +89,8 @@ class DumpTest extends TestCase
         $array['Old Dog'] = "And if you want\n to preserve line breaks, \ngo ahead!";
         $array['key:withcolon'] = "Should support this to";
 
-        $yaml = Yaml::dumper($array,4,60);
+        $yaml = Yaml::dumper($array, 4, 60);
+        $this->assertTrue(is_string($yaml));
     }
 
     public function testMixed() 

@@ -9,26 +9,27 @@ class FailingDumpTest extends TestCase
 
     private $files_to_test = array();
     protected $array = [
-      '' => 'bar',
-      'foo' => '#bar',
-      'foo\'bar' => [],
-      'bar' => [1, 'foo'],
-      'foobar' => [
-          'foo' => 'bar',
-          'bar' => [1, 'foo'],
-          'foobar' => [
-              'foo' => 'bar',
-              'bar' => [1, 'foo'],
-          ],
-      ],
-  ];
+        '' => 'bar',
+        'foo' => '#bar',
+        'foo\'bar' => [],
+        'bar' => [1, 'foo'],
+        'foobar' => [
+            'foo' => 'bar',
+            'bar' => [1, 'foo'],
+            'foobar' => [
+                'foo' => 'bar',
+                'bar' => [1, 'foo'],
+            ],
+        ],
+    ];
+
     public function setUp(): void 
     {
       $this->markTestSkipped(
         'Not working under PHP 7.x.'
       );
       
-      $this->files_to_test = array('spyc.yaml', 'failing1.yaml', 'indent_1.yaml', 'quotes.yaml');
+      $this->files_to_test = array('spyc.yaml', 'indent_1.yaml');
     }
 
     public function testIndentationInConstructor()

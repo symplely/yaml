@@ -4,8 +4,6 @@ namespace Async\Tests;
 use Async\Yaml;
 use PHPUnit\Framework\TestCase;
 
-function xroundTrip($a) { return Yaml::loader(Yaml::dumper(array('x' => $a))); }
-
 class FailingRoundTripTest extends TestCase 
 {
     protected function setUp(): void
@@ -17,6 +15,6 @@ class FailingRoundTripTest extends TestCase
 
     public function testNewLines() 
     {
-      $this->assertEquals(array('x' => "\n"), xroundTrip("\n"));
+      $this->assertEquals(array('x' => "\n"), roundTrip("\n"));
     }   
 }

@@ -13,6 +13,16 @@ class ParseTest extends TestCase {
       $this->yaml = yaml_load_file(__DIR__.DIRECTORY_SEPARATOR.'spyc.yaml');
     }
 
+    public function testSeq0() 
+    {
+      $this->assertEquals("PHP Class", $this->yaml[0]);
+    }
+
+    public function testHash_3() 
+    {
+      $this->assertEquals('Hash (#) can appear in key too', $this->yaml['hash#3']);
+    }
+
     public function testMergeHashKeys() 
     {
       $Expected =  array(

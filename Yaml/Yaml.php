@@ -341,11 +341,11 @@ class Yaml
             $value = $this->_doLiteralBlock($value, $indent);
         }
 
-        if (trim($value) != $value) {
+        if (\trim($value) != $value) {
             $value = $this->_doLiteralBlock($value, $indent);
         }
 
-        if (is_bool($value)) {
+        if (\is_bool($value)) {
             $value = $value ? "true" : "false";
         }
 
@@ -748,7 +748,7 @@ class Yaml
                 }
 
                 if (\is_array($SubArr)) {
-                    $array[key($SubArr)] = $SubArr[key($SubArr)];
+                    $array[\key($SubArr)] = $SubArr[\key($SubArr)];
                     continue;
                 }
                 $array[] = $SubArr;
@@ -1102,7 +1102,7 @@ class Yaml
         if ($literalBlockStyle == '|') {
             return $literalBlock . $line;
         }
-        if (strlen($line) == 0) {
+        if (\strlen($line) == 0) {
             return \rtrim($literalBlock, ' ') . "\n";
         }
 

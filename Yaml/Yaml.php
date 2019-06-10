@@ -761,9 +761,9 @@ class Yaml
         }
 
         if (\is_numeric($value) && \preg_match('/^(-|)[1-9]+[0-9]*$/', $value)) {
-            $intvalue = (int) $value;
-            if ($intvalue != \PHP_INT_MAX && $intvalue != ~\PHP_INT_MAX) {
-                $value = $intvalue;
+            $intValue = (int) $value;
+            if ($intValue != \PHP_INT_MAX && $intValue != ~\PHP_INT_MAX) {
+                $value = $intValue;
             }
 
             return $value;
@@ -792,7 +792,7 @@ class Yaml
     }
 
     /**
-     * Used in inlines to check for more inlines or quoted strings
+     * Used in inline to check for more inline or quoted strings
      * @access private
      * @return array
      */
@@ -803,7 +803,7 @@ class Yaml
         // pure mappings and mappings with sequences inside can't go very
         // deep.  This needs to be fixed.
 
-        $seqs = array();
+        $sequence = array();
         $maps = array();
         $saved_strings = array();
         $saved_empties = array();
@@ -830,14 +830,14 @@ class Yaml
         do {
 
             // Check for sequences
-            while (\preg_match('/\[([^{}\[\]]+)\]/U', $inline, $matchseqs)) {
-                $seqs[] = $matchseqs[0];
-                $inline = \preg_replace('/\[([^{}\[\]]+)\]/U', ('YAMLSeq' . (\count($seqs) - 1) . 's'), $inline, 1);
+            while (\preg_match('/\[([^{}\[\]]+)\]/U', $inline, $matchSequence)) {
+                $sequence[] = $matchSequence[0];
+                $inline = \preg_replace('/\[([^{}\[\]]+)\]/U', ('YAMLSeq' . (\count($sequence) - 1) . 's'), $inline, 1);
             }
 
             // Check for mappings
-            while (\preg_match('/{([^\[\]{}]+)}/U', $inline, $matchmaps)) {
-                $maps[] = $matchmaps[0];
+            while (\preg_match('/{([^\[\]{}]+)}/U', $inline, $matchMap)) {
+                $maps[] = $matchMap[0];
                 $inline = \preg_replace('/{([^\[\]{}]+)}/U', ('YAMLMap' . (\count($maps) - 1) . 's'), $inline, 1);
             }
 
@@ -849,17 +849,17 @@ class Yaml
 
         $explode = \explode(',', $inline);
         $explode = \array_map('trim', $explode);
-        $stringi = 0;
+        $stringIndex = 0;
         $i = 0;
 
         while (1) {
 
             // Re-add the sequences
-            if (!empty($seqs)) {
+            if (!empty($sequence)) {
                 foreach ($explode as $key => $value) {
                     if (\strpos($value, 'YAMLSeq') !== false) {
-                        foreach ($seqs as $seqk => $seq) {
-                            $explode[$key] = \str_replace(('YAMLSeq' . $seqk . 's'), $seq, $value);
+                        foreach ($sequence as $seqKey => $seq) {
+                            $explode[$key] = \str_replace(('YAMLSeq' . $seqKey . 's'), $seq, $value);
                             $value = $explode[$key];
                         }
                     }
@@ -870,8 +870,8 @@ class Yaml
             if (!empty($maps)) {
                 foreach ($explode as $key => $value) {
                     if (\strpos($value, 'YAMLMap') !== false) {
-                        foreach ($maps as $mapk => $map) {
-                            $explode[$key] = \str_replace(('YAMLMap' . $mapk . 's'), $map, $value);
+                        foreach ($maps as $mapKey => $map) {
+                            $explode[$key] = \str_replace(('YAMLMap' . $mapKey . 's'), $map, $value);
                             $value = $explode[$key];
                         }
                     }
@@ -882,9 +882,9 @@ class Yaml
             if (!empty($saved_strings)) {
                 foreach ($explode as $key => $value) {
                     while (\strpos($value, 'YAMLString') !== false) {
-                        $explode[$key] = \preg_replace('/YAMLString/', \strtr($saved_strings[$stringi], array('\\' => '\\\\', '$' => '\$')), $value, 1);
-                        unset($saved_strings[$stringi]);
-                        ++$stringi;
+                        $explode[$key] = \preg_replace('/YAMLString/', \strtr($saved_strings[$stringIndex], array('\\' => '\\\\', '$' => '\$')), $value, 1);
+                        unset($saved_strings[$stringIndex]);
+                        ++$stringIndex;
                         $value = $explode[$key];
                     }
                 }
@@ -1135,7 +1135,7 @@ class Yaml
             $indent = \strlen($line) - \strlen(\ltrim($line));
         }
 
-        return substr($line, $indent);
+        return \substr($line, $indent);
     }
 
     private function getParentPathByIndent($indent)
@@ -1219,7 +1219,7 @@ class Yaml
 
     private function isHashElement($line)
     {
-        return strpos($line, ':');
+        return \strpos($line, ':');
     }
 
     private function isLiteral($line)

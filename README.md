@@ -1,6 +1,6 @@
 # Yaml
 
-[![Build Status](https://travis-ci.org/symplely/yaml.svg?branch=master)](https://travis-ci.org/symplely/yaml)[![codecov](https://codecov.io/gh/symplely/yaml/branch/master/graph/badge.svg)](https://codecov.io/gh/symplely/yaml)[![Codacy Badge](https://api.codacy.com/project/badge/Grade/8713c8ff9c8b40d3ba93cc913a66118c)](https://www.codacy.com/app/techno-express/yaml?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=symplely/yaml&amp;utm_campaign=Badge_Grade)[![Maintainability](https://api.codeclimate.com/v1/badges/cbc4d4641ced28348958/maintainability)](https://codeclimate.com/github/symplely/yaml/maintainability)
+[![Build Status](https://travis-ci.org/symplely/yaml.svg?branch=master)](https://travis-ci.org/symplely/yaml)[![Build status](https://ci.appveyor.com/api/projects/status/ivjn1t51t5i0m89e/branch/master?svg=true)](https://ci.appveyor.com/project/techno-express/yaml/branch/master)[![codecov](https://codecov.io/gh/symplely/yaml/branch/master/graph/badge.svg)](https://codecov.io/gh/symplely/yaml)[![Codacy Badge](https://api.codacy.com/project/badge/Grade/8713c8ff9c8b40d3ba93cc913a66118c)](https://www.codacy.com/app/techno-express/yaml?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=symplely/yaml&amp;utm_campaign=Badge_Grade)[![Maintainability](https://api.codeclimate.com/v1/badges/cbc4d4641ced28348958/maintainability)](https://codeclimate.com/github/symplely/yaml/maintainability)
 
 An pure PHP implementation base YAML loader/dumper.
 

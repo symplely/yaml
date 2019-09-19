@@ -460,4 +460,18 @@ class ParseTest extends TestCase {
       $expected = array(array(array('x')));
       $this->assertSame($expected, Yaml::loader("- - - x"));
     }
+
+    public function testElementWithEmptyHash()
+    {
+        $element = "hash: {}\narray: []";
+        $yaml = Spyc::YAMLLoadString($element);
+        $this->assertEquals($yaml['hash'], []);
+        $this->assertEquals($yaml['array'], []);
+
+        $yaml = Spyc::YAMLLoadString($element, [
+            'setting_empty_hash_as_object' => true
+        ]);
+        $this->assertInstanceOf(stdClass::class, $yaml['hash']);
+        $this->assertEquals($yaml['array'], []);
+    }
 }

@@ -83,6 +83,13 @@ class Yaml
     public $_nodeId;
 
     /**
+     * Setting this to true will force YAML::Load to use yaml_load function when
+     * possible. False by default.
+     * @var bool
+     */
+    public $setting_empty_hash_as_object = false;
+
+    /**
      * Load a valid YAML string to array.
      *
      * @param string $input
@@ -118,11 +125,18 @@ class Yaml
      *  ```
      * @access public
      * @param string $input Path of YAML file or string containing YAML
+     * @param array set options
      * @return array
      */
-    public static function loader($input): array
+    public static function loader($input, $options = []): array
     {
         $Yaml = new Yaml;
+        foreach ($options as $key => $value) {
+            if (\property_exists($Yaml, $key)) {
+                $Yaml->$key = $value;
+            }
+        }
+
         return $Yaml->_load($input);
     }
 
@@ -148,11 +162,18 @@ class Yaml
      *  ```
      * @access public
      * @param string $input String containing YAML
+     * @param array set options
      * @return array
      */
-    public static function loadString($input): array
+    public static function loadString($input, $options = []): array
     {
         $Yaml = new Yaml;
+        foreach ($options as $key => $value) {
+            if (\property_exists($Yaml, $key)) {
+                $Yaml->$key = $value;
+            }
+        }
+
         return $Yaml->_loadString($input);
     }
 
@@ -172,11 +193,11 @@ class Yaml
      *
      * @access public
      * @param array|\stdClass $array PHP array
-     * @param int $indent Pass in false to use the default, which is 2
-     * @param int $wordwrap Pass in 0 for no wordwrap, false for default(40)
+     * @param $indent Pass in false to use the default, which is 2
+     * @param $wordwrap Pass in 0 for no wordwrap, false for default(40)
      * @return string
      */
-    public static function dumper($array, int $indent = null, int $wordwrap = null): string
+    public static function dumper($array, $indent = null, $wordwrap = null): string
     {
         $yaml = new Yaml;
         return $yaml->dump($array, $indent, $wordwrap);
@@ -670,6 +691,10 @@ class Yaml
     {
         if ($value === '') {
             return "";
+        }
+
+        if ($this->setting_empty_hash_as_object && $value === '{}') {
+            return new \stdClass();
         }
 
         $first_character = $value[0];

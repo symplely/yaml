@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Spyc -- A Simple PHP YAML Class
  * @version 1.0.0
@@ -337,13 +338,14 @@ class Yaml
     private function _dumpNode($key, $value, $indent, $previous_key = -1, $first_key = 0, $source_array = null): string
     {
         // do some folding here, for blocks
-        if (\is_string($value)
+        if (
+            \is_string($value)
             && ((\strpos($value, "\n") !== false || \strpos($value, ": ") !== false || \strpos($value, "- ") !== false
                 || \strpos($value, "*") !== false || \strpos($value, "#") !== false || \strpos($value, "<") !== false
                 || \strpos($value, ">") !== false || \strpos($value, '%') !== false || \strpos($value, '  ') !== false
                 || \strpos($value, "[") !== false || \strpos($value, "]") !== false || \strpos($value, "{") !== false
-                || \strpos($value, "}") !== false) ||
-                \strpos($value, "&") !== false || \strpos($value, "'") !== false || \strpos($value, "!") === 0 || \substr($value, -1, 1) == ':')
+                || \strpos($value, "}") !== false)
+                || \strpos($value, "&") !== false || \strpos($value, "'") !== false || \strpos($value, "!") === 0 || \substr($value, -1, 1) == ':')
         ) {
             $value = $this->_doLiteralBlock($value, $indent);
         } else {
@@ -430,7 +432,8 @@ class Yaml
         $spaces = \str_repeat(' ', $indent);
         foreach ($exploded as $line) {
             $line = \trim($line);
-            if (\strpos($line, '"') === 0
+            if (
+                \strpos($line, '"') === 0
                 && \strrpos($line, '"') == (\strlen($line) - 1)
                 || \strpos($line, "'") === 0
                 && \strrpos($line, "'") == (\strlen($line) - 1)
@@ -446,7 +449,7 @@ class Yaml
 
     /**
      * Folds a string of text, if necessary
-     * 
+     *
      * @access private
      * @return string
      * @param $value The string you wish to fold
@@ -467,7 +470,6 @@ class Yaml
             if (\is_numeric($value) && \is_string($value)) {
                 $value = '"' . $value . '"';
             }
-
         }
 
         return $value;
@@ -493,11 +495,9 @@ class Yaml
 
     private function isTranslationWord($value)
     {
-        return (
-            self::isTrueWord($value) ||
+        return (self::isTrueWord($value) ||
             self::isFalseWord($value) ||
-            self::isNullWord($value)
-        );
+            self::isNullWord($value));
     }
 
     /**
@@ -530,11 +530,11 @@ class Yaml
         foreach ($words as $i) {
             $result = \array_merge($result, array(\ucfirst($i), \strtoupper($i), \strtolower($i)));
         }
-        
+
         return $result;
     }
 
-// LOADING FUNCTIONS
+    // LOADING FUNCTIONS
 
     private function _load($input)
     {
@@ -614,7 +614,6 @@ class Yaml
             }
 
             $this->delayedPath = array();
-
         }
         return $this->result;
     }
@@ -869,7 +868,6 @@ class Yaml
             if ($i++ >= 10) {
                 break;
             }
-
         } while (\strpos($inline, '[') !== false || \strpos($inline, '{') !== false);
 
         $explode = \explode(',', $inline);
@@ -924,7 +922,7 @@ class Yaml
                     }
                 }
             }
-            
+
             $finished = true;
             foreach ($explode as $key => $value) {
                 if (\strpos($value, 'YAMLSeq') !== false) {
@@ -974,8 +972,10 @@ class Yaml
     private function referenceContentsByAlias($alias)
     {
         do {
-            if (!isset($this->SavedGroups[$alias])) {echo "Bad group name: $alias.";
-                break;}
+            if (!isset($this->SavedGroups[$alias])) {
+                echo "Bad group name: $alias.";
+                break;
+            }
             $groupPath = $this->SavedGroups[$alias];
             $value = $this->result;
             foreach ($groupPath as $k) {
@@ -1039,7 +1039,9 @@ class Yaml
 
         // Adding string or numeric key to the innermost level or $this->arr.
         if (\is_string($key) && $key == '<<') {
-            if (!\is_array($_arr)) {$_arr = array();}
+            if (!\is_array($_arr)) {
+                $_arr = array();
+            }
 
             $_arr = \array_merge($_arr, $value);
         } else if ($key || $key === '' || $key === '0') {
@@ -1048,12 +1050,15 @@ class Yaml
             } else {
                 $_arr[$key] = $value;
             }
-
         } else {
-            if (!\is_array($_arr)) {$_arr = array($value);
-                $key = 0;} else { $_arr[] = $value;
+            if (!\is_array($_arr)) {
+                $_arr = array($value);
+                $key = 0;
+            } else {
+                $_arr[] = $value;
                 \end($_arr);
-                $key = \key($_arr);}
+                $key = \key($_arr);
+            }
         }
 
         $reverse_path = \array_reverse($this->path);
@@ -1149,7 +1154,6 @@ class Yaml
             } else if (\substr($_, -1 * \strlen($this->LiteralPlaceHolder)) == $this->LiteralPlaceHolder) {
                 $lineArray[$k] = \rtrim($literalBlock, " \r\n");
             }
-
         }
         return $lineArray;
     }
@@ -1176,7 +1180,6 @@ class Yaml
             if ($indent <= $lastIndentInParentPath) {
                 \array_pop($linePath);
             }
-
         } while ($indent <= $lastIndentInParentPath);
         return $linePath;
     }
@@ -1195,7 +1198,6 @@ class Yaml
             if ($k > $indent) {
                 unset($this->path[$k]);
             }
-
         }
 
         return true;
@@ -1402,7 +1404,6 @@ class Yaml
         }
 
         return false;
-
     }
 
     private function addGroup($line, $group)
@@ -1444,7 +1445,7 @@ class Yaml
         $trimmedValue = \preg_replace('#^(\#.*?\n)+#s', '', $value, -1, $count);
         if (1 === $count) {
             // items have been removed, update the offset
-            $this->offset += \substr_count($value, "\n")-\substr_count($trimmedValue, "\n");
+            $this->offset += \substr_count($value, "\n") - \substr_count($trimmedValue, "\n");
             $value = $trimmedValue;
         }
 
@@ -1452,7 +1453,7 @@ class Yaml
         $trimmedValue = \preg_replace('#^\-\-\-.*?\n#s', '', $value, -1, $count);
         if (1 === $count) {
             // items have been removed, update the offset
-            $this->offset += \substr_count($value, "\n")-\substr_count($trimmedValue, "\n");
+            $this->offset += \substr_count($value, "\n") - \substr_count($trimmedValue, "\n");
             $value = $trimmedValue;
 
             // remove end of the document marker (...)
